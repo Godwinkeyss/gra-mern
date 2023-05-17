@@ -1,7 +1,7 @@
 // const express = require('express');
 import express from 'express';
 
-import path from 'path'
+import path from 'path';
 const app = express();
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -32,16 +32,15 @@ app.use('/api/paystack', paystackRouter);
 
 app.use('/api/seed', seedRoute);
 
-const  __dirname = path.resolve()
-app.use(express.static(path.join(__dirname, '/frontend/build')))
-app.get('*',(req,res)=>
-res.sendFile(path.join(__dirname,'/frontend/build/index.html')))
-
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
+);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
-
 
 app.listen(5000, () => {
   console.log('server is running on http://localhost:5000');

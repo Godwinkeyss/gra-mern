@@ -6,7 +6,6 @@ import expressAsyncHandler from 'express-async-handler';
 import { generateToken, isAuth } from '../utils/utils.js';
 import User from '../models/User.js';
 
-
 const userRouter = express.Router();
 
 // userRouter.get(
@@ -81,8 +80,8 @@ userRouter.put(
 //             from: 'Amazona <me@mg.yourdomain.com>',
 //             to: `${user.name} <${user.email}>`,
 //             subject: `Reset Password`,
-//             html: ` 
-//              <p>Please Click the following link to reset your password:</p> 
+//             html: `
+//              <p>Please Click the following link to reset your password:</p>
 //              <a href="${baseUrl()}/reset-password/${token}"}>Reset Password</a>
 //              `,
 //           },

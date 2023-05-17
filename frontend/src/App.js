@@ -1,8 +1,7 @@
-
 import './App.css';
 import Header from './components/Header';
 // import Slider from './components/Slider';
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeScreen from './pages/HomeScreen';
 // import Container from 'react-bootstrap/Container';
 import ProductScreen from './pages/ProductScreen';
@@ -17,40 +16,177 @@ import PlaceOrderScreen from './pages/PlaceOrderScreen';
 import OrderScreen from './pages/OrderScreen';
 import OrderHistoryScreen from './pages/OrderHistoryScreen';
 import ProfileScreen from './pages/ProfileScreen';
+import Nav from 'react-bootstrap/Nav';
+import Badge from 'react-bootstrap/Badge';
+
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
+
+import { useContext, useEffect, useState } from 'react';
+
+import { getError } from './utils';
+import axios from 'axios';
+import { Store } from './store';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import SearchBox from './components/SearchBox';
+import SearchScreen from './pages/SearchScreen';
 
 function App() {
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { fullBox, cart, userInfo } = state;
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fecthCategories = async () => {
+      try {
+        const { data } = await axios.get('/api/products/categories');
+        setCategories(data);
+      } catch (error) {
+        toast.error(getError(error));
+      }
+    };
+    fecthCategories();
+  }, []);
+  const signoutHandler = () => {
+    ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
+    window.location.href = '/signin';
+  };
+
   return (
     <BrowserRouter>
-   
-    <div className="site-container d-flex flex-column">
-    <ToastContainer position="bottom-center" limit={1} />
-      <header>
-         <Header />
-      </header>
-      <main className='main'>
-      
-      <Routes>
-       <Route path="/" element={<HomeScreen />} />
-       <Route path="/product/:slug" element={<ProductScreen />}/>
-       <Route path="/cart" element={<CartScreen />}/>
-       <Route path="/signin" element={<SigninScreen />} />
-       <Route path="/signup" element={<SignupScreen />} />
-       <Route path="/profile" element={<ProfileScreen />} />
-       <Route path="/shipping" element={<ShippingAddressScreen />} />
-       <Route  path="/payment" element={<PaymentMethodScreen />} />
-       <Route path="/placeorder" element={<PlaceOrderScreen />} />
-       <Route path="/order/:id" element={<OrderScreen />} />
-       <Route path="/orderhistory" element={<OrderHistoryScreen />} />
-       </Routes>
-      
-      </main>
-      <footer className="bg-dark mt-3" variant="dark">
-         <div className="text-center text-white py-3">
-          all right reserved &copy; {new Date().getFullYear()}
-         </div>
-      </footer>
-    </div>
-   
+      <div
+        className={
+          sidebarIsOpen
+            ? 'site-container active-cont d-flex flex-column full-box'
+            : 'site-container d-flex flex-column'
+        }
+      >
+        <ToastContainer position="bottom-center" limit={1} />
+        <header>
+          {/* <Header /> */}
+          <Navbar
+            collapseOnSelect
+            expand="lg"
+            bg="dark"
+            variant="dark"
+            className=""
+          >
+            <Container>
+              <Button
+                variant="dark"
+                onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+              >
+                <i className="fas fa-bars"></i>
+              </Button>
+              <Navbar.Brand href="#home" className="fs-3">
+                <Link to="/">Grapec</Link>
+              </Navbar.Brand>
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav">
+              
+                <Nav className="mx-auto">
+                <SearchBox  />
+                  {/* <Nav.Link href="#deets">More deets</Nav.Link>
+                  <Nav.Link eventKey={2} href="#memes">
+                    Dank memes
+                  </Nav.Link> */}
+                </Nav>
+                <Nav>
+                  <Link to="/cart" className="nav-link">
+                    Cart
+                    {cart.cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}
+                  </Link>
+                </Nav>
+                <Nav className="">
+                  <Nav.Link href="#features">Features</Nav.Link>
+                  {userInfo ? (
+                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                      <LinkContainer to="/profile">
+                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/orderhistory">
+                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Divider />
+                      <Link
+                        className="dropdown-item"
+                        to="#signout"
+                        onClick={signoutHandler}
+                      >
+                        Sign Out
+                      </Link>
+                    </NavDropdown>
+                  ) : (
+                    <Link className="nav-link" to="/signin">
+                      Sign In
+                    </Link>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </header>
+        <div
+          className={
+            sidebarIsOpen
+              ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
+              : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
+          }
+        >
+          <Nav className="flex-column text-white w-100 p-2">
+            <Nav.Item>
+              <div className='d-flex justify-content-between'>
+                {' '}
+                <strong>Categories</strong>
+                <i className="fas fa-times fs-4 m-1 pointer "onClick={() => setSidebarIsOpen(false)}></i>
+              </div>
+              {categories.map((category) => (
+                <Nav.Item key={category}>
+                  <LinkContainer
+                    to={{ pathname: '/search', search: `category=${category}` }}
+                    onClick={() => setSidebarIsOpen(false)}
+                  >
+                    <Nav.Link>{category}</Nav.Link>
+                  </LinkContainer>
+                </Nav.Item>
+              ))}
+            </Nav.Item>
+          </Nav>
+        </div>
+        <main className="main">
+          <Routes>
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/product/:slug" element={<ProductScreen />} />
+            <Route path="/cart" element={<CartScreen />} />
+            <Route path="/signin" element={<SigninScreen />} />
+            <Route path="/signup" element={<SignupScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/shipping" element={<ShippingAddressScreen />} />
+            <Route path="/payment" element={<PaymentMethodScreen />} />
+            <Route path="/placeorder" element={<PlaceOrderScreen />} />
+            <Route path="/order/:id" element={<OrderScreen />} />
+            <Route path="/orderhistory" element={<OrderHistoryScreen />} />
+            <Route path="/search" element={<SearchScreen />} />
+
+          </Routes>
+        </main>
+        <footer className="bg-dark mt-3" variant="dark">
+          <div className="text-center text-white py-3">
+            all right reserved &copy; {new Date().getFullYear()}
+          </div>
+        </footer>
+      </div>
     </BrowserRouter>
   );
 }

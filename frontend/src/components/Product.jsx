@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 const Product = ({product}) => {
   return (
-    <Col md={4} lg={3} sm={6}>
+    // <Col md={4} lg={3} sm={6}>
     
         <Card className="productImg">
           <Link to={`/product/${product.slug}`}>
@@ -27,7 +27,7 @@ const Product = ({product}) => {
           </Card.Body>
         </Card>
     
-    </Col>
+    // </Col>
   );
 };
 
