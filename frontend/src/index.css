@@ -13,6 +13,8 @@ code {
 }
 .site-container{
   min-height: 100vh;
+  transition: .4s;
+  position: relative;
 }
 main{
   flex:1;
@@ -99,4 +101,31 @@ a:hover{
   object-fit: cover;
   background-position: cover cover;
   margin: 20px 0px;
+}
+
+/* sidebar */
+.navbar-brand {
+  font-weight: bold;
+}
+.side-navbar {
+  width: 240px;
+  height: 400px;
+  position: absolute;
+  left: -300px;
+  background-color: #100901;
+  transition: 0.5s;
+  z-index: 999;
+}
+
+.site-container {
+  transition: 0.4s;
+}
+.active-cont {
+  margin-left: 0px;
+}
+.active-nav {
+  left: 0;
+}
+.pointer{
+  cursor: pointer;
 }
