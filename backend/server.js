@@ -10,6 +10,9 @@ import ProductRoute from './routes/productRoute.js';
 import userRouter from './routes/userRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import paystackRouter from './routes/paystackRoute.js';
+import uploadRouter from './routes/uploadRoutes.js';
+// import uploadRouter from './routes/uploadRoutes.js';
+
 
 // app.use(err,req,res,next)=>{
 
@@ -25,6 +28,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api/upload', uploadRouter);
 app.use('/api/products', ProductRoute);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);

@@ -33,6 +33,14 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './pages/SearchScreen';
+import ProtectedRoute from './components/ProtectedRoute';
+import DashboardScreen from './pages/DashboardScreen';
+import AdminRoute from './components/AdminRoute';
+import ProductListScreen from './pages/ProductListScreen';
+import ProductEditScreen from './pages/ProductEditScreen';
+import OrderListScreen from './pages/OrderListScreen';
+import UserListScreen from './pages/UserListScreen';
+import UserEditScreen from './pages/UserEditScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -90,9 +98,8 @@ function App() {
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
-              
                 <Nav className="mx-auto">
-                <SearchBox  />
+                  <SearchBox />
                   {/* <Nav.Link href="#deets">More deets</Nav.Link>
                   <Nav.Link eventKey={2} href="#memes">
                     Dank memes
@@ -132,6 +139,22 @@ function App() {
                       Sign In
                     </Link>
                   )}
+                  {userInfo && userInfo.isAdmin && (
+                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                      <LinkContainer to="/admin/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/products">
+                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/orders">
+                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/users">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -146,10 +169,13 @@ function App() {
         >
           <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
-              <div className='d-flex justify-content-between'>
+              <div className="d-flex justify-content-between">
                 {' '}
                 <strong>Categories</strong>
-                <i className="fas fa-times fs-4 m-1 pointer "onClick={() => setSidebarIsOpen(false)}></i>
+                <i
+                  className="fas fa-times fs-4 m-1 pointer "
+                  onClick={() => setSidebarIsOpen(false)}
+                ></i>
               </div>
               {categories.map((category) => (
                 <Nav.Item key={category}>
@@ -171,14 +197,85 @@ function App() {
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/signin" element={<SigninScreen />} />
             <Route path="/signup" element={<SignupScreen />} />
-            <Route path="/profile" element={<ProfileScreen />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfileScreen />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/shipping" element={<ShippingAddressScreen />} />
             <Route path="/payment" element={<PaymentMethodScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/order/:id" element={<OrderScreen />} />
-            <Route path="/orderhistory" element={<OrderHistoryScreen />} />
+            <Route
+              path="/order/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orderhistory"
+              element={
+                <ProtectedRoute>
+                  <OrderHistoryScreen />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/search" element={<SearchScreen />} />
+            {/* admin route */}
 
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+                  <DashboardScreen />
+                </AdminRoute>
+              }
+            />
+              <Route
+                path="/admin/users"
+                element={
+                  <AdminRoute>
+                    <UserListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+            <Route
+              path="/admin/products"
+              element={
+                <AdminRoute>
+                  <ProductListScreen />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/product/:id"
+              element={
+                <AdminRoute>
+                  <ProductEditScreen />
+                </AdminRoute>
+              }
+            ></Route>
+              <Route
+                path="/admin/user/:id"
+                element={
+                  <AdminRoute>
+                    <UserEditScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute>
+                  <OrderListScreen />
+                </AdminRoute>
+              }
+            ></Route>
           </Routes>
         </main>
         <footer className="bg-dark mt-3" variant="dark">

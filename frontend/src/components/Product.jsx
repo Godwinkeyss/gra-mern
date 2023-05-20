@@ -21,7 +21,7 @@ const Product = ({product}) => {
             <Link to={`/product/${product.slug}`}>
               <Card.Title>{product.name}</Card.Title>
               </Link>
-              <b>${product.price}</b>
+              <b>₦{product.price}</b>
             </Card.Text>
             <Button className="btnCart">Add to cart</Button>
           </Card.Body>

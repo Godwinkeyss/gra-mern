@@ -176,21 +176,21 @@ export default function OrderScreen() {
   ]);
 
   async function deliverOrderHandler() {
-    // try {
-    //   dispatch({ type: 'DELIVER_REQUEST' });
-    //   const { data } = await axios.put(
-    //     `/api/orders/${order._id}/deliver`,
-    //     {},
-    //     {
-    //       headers: { authorization: `Bearer ${userInfo.token}` },
-    //     }
-    //   );
-    //   dispatch({ type: 'DELIVER_SUCCESS', payload: data });
-    //   toast.success('Order is delivered');
-    // } catch (err) {
-    //   toast.error(getError(err));
-    //   dispatch({ type: 'DELIVER_FAIL' });
-    // }
+    try {
+      dispatch({ type: 'DELIVER_REQUEST' });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/deliver`,
+        {},
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'DELIVER_SUCCESS', payload: data });
+      toast.success('Order is delivered');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'DELIVER_FAIL' });
+    }
   }
 
 //   console.log(order.totalPrice);
@@ -445,7 +445,7 @@ export default function OrderScreen() {
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
                     <div className="d-grid">
-                      <Button type="button" onClick={deliverOrderHandler}>
+                      <Button type="button" className='btnCart' onClick={deliverOrderHandler}>
                         Deliver Order
                       </Button>
                     </div>
