@@ -93,7 +93,7 @@ const ProductScreen = () => {
                   numReviews={product.numReviews}
                 ></Rating>
               </ListGroup.Item>
-              <ListGroup.Item>Pirce : ${product.price}</ListGroup.Item>
+              <ListGroup.Item>Price : ₦{product.price}</ListGroup.Item>
               <ListGroup.Item>
                 {/* <Row xs={1} md={2} className="g-2">
                 {[product.image, ...product.images].map((x) => (
@@ -125,7 +125,7 @@ const ProductScreen = () => {
                   <ListGroup.Item>
                     <Row>
                       <Col>Price:</Col>
-                      <Col>${product.price}</Col>
+                      <Col>₦{product.price}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
