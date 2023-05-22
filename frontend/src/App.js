@@ -41,6 +41,7 @@ import ProductEditScreen from './pages/ProductEditScreen';
 import OrderListScreen from './pages/OrderListScreen';
 import UserListScreen from './pages/UserListScreen';
 import UserEditScreen from './pages/UserEditScreen';
+import MapScreen from './pages/MapScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -72,8 +73,12 @@ function App() {
       <div
         className={
           sidebarIsOpen
+          ? fullBox
             ? 'site-container active-cont d-flex flex-column full-box'
-            : 'site-container d-flex flex-column'
+            : 'site-container active-cont d-flex flex-column'
+          : fullBox
+          ? 'site-container d-flex flex-column full-box'
+          : 'site-container d-flex flex-column'
         }
       >
         <ToastContainer position="bottom-center" limit={1} />
@@ -206,6 +211,14 @@ function App() {
               }
             />
             <Route path="/shipping" element={<ShippingAddressScreen />} />
+            <Route
+                path="/map"
+                element={
+                  <ProtectedRoute>
+                    <MapScreen />
+                  </ProtectedRoute>
+                }
+              />
             <Route path="/payment" element={<PaymentMethodScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route

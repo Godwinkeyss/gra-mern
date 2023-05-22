@@ -1,10 +1,11 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 
-import { isAdmin, isAuth } from '../utils/utils.js';
+import { isAdmin, isAuth, payOrderEmailTemplate, sendMail } from '../utils/utils.js';
 import Order from '../models/Order.js';
 import User from '../models/User.js';
 import Product from '../models/Product.js';
+
 
 const orderRouter = express.Router();
 
@@ -124,7 +125,10 @@ orderRouter.put(
   '/:id/pay',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate(
+      'user',
+      'email name'
+    );
     if (order) {
       order.isPaid = true;
       order.paidAt = Date.now();
@@ -135,6 +139,21 @@ orderRouter.put(
         email_address: req.body.email_address,
       };
       const updatOrder = await order.save();
+      await sendMail(
+        {
+          email: `${order.user.name} <${order.user.email}`,
+          subject: `New order ${order._id}`,
+          html: payOrderEmailTemplate(order),
+          // message: `Hello ${order.user.name}, please click on the link to activate your account: ${activationUrl}`,
+        },
+        (error, body) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(body);
+          }
+        }
+      );
       res.send({ message: 'Order Paid', order: updatOrder });
     } else {
       res.status(404).send({ message: 'Order Not Found' });

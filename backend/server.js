@@ -13,7 +13,6 @@ import paystackRouter from './routes/paystackRoute.js';
 import uploadRouter from './routes/uploadRoutes.js';
 // import uploadRouter from './routes/uploadRoutes.js';
 
-
 // app.use(err,req,res,next)=>{
 
 // }
@@ -27,6 +26,10 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.get('/api/keys/google', (req, res) => {
+  res.send({ key: process.env.GOOGLE_API_KEY || '' });
+});
 
 app.use('/api/upload', uploadRouter);
 app.use('/api/products', ProductRoute);

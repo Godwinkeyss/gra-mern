@@ -218,21 +218,21 @@ export default function OrderScreen() {
         if(data.data.reference.length > 0){
             window.location.href = data.data.authorization_url;
             console.log(window.location.href)
-            // try {
-            //     dispatch({ type: 'PAY_REQUEST' });
-            //     const { data } = await axios.put(
-            //       `/api/orders/${order._id}/pay`,
-            //       order.isPaid,
-            //       {
-            //         headers: { authorization: `Bearer ${userInfo.token}` },
-            //       }
-            //     );
-            //     dispatch({ type: 'PAY_SUCCESS', payload: data });
-            //     toast.success('Order is paid');
-            //   } catch (err) {
-            //     dispatch({ type: 'PAY_FAIL', payload: getError(err) });
-            //     toast.error(getError(err));
-            //   }
+            try {
+                dispatch({ type: 'PAY_REQUEST' });
+                const { data } = await axios.put(
+                  `/api/orders/${order._id}/pay`,
+                  order.isPaid,
+                  {
+                    headers: { authorization: `Bearer ${userInfo.token}` },
+                  }
+                );
+                dispatch({ type: 'PAY_SUCCESS', payload: data });
+                toast.success('Order is paid');
+              } catch (err) {
+                dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+                toast.error(getError(err));
+              }
         }
 
       }
