@@ -61,7 +61,7 @@ const HomeScreen = () => {
             <div className="container">
               <h1>Featured Products</h1>
               <Row className="  mt-3">
-                {products.map((product) => (
+                {products.slice(0,8).map((product) => (
                   <Col md={4} lg={3} sm={6}>
                     <Product product={product} key={product.slug} />
                   </Col>

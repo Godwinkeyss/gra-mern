@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import Rating from './Rating';
 const Product = ({product}) => {
   return (
     // <Col md={4} lg={3} sm={6}>
@@ -21,6 +22,7 @@ const Product = ({product}) => {
             <Link to={`/product/${product.slug}`}>
               <Card.Title>{product.name}</Card.Title>
               </Link>
+               <p className='card-text d-flex fs-6 mb-0'><Rating rating={product.rating} /> <span className='mx-1'>{product.numReviews} {product.numReviews === 1 ? 'review':'reviews'}</span> </p> 
               <b>₦{product.price}</b>
             </Card.Text>
             <Button className="btnCart">Add to cart</Button>
