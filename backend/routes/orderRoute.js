@@ -1,11 +1,15 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 
-import { isAdmin, isAuth, payOrderEmailTemplate, sendMail } from '../utils/utils.js';
+import {
+  isAdmin,
+  isAuth,
+  payOrderEmailTemplate,
+  sendMail,
+} from '../utils/utils.js';
 import Order from '../models/Order.js';
 import User from '../models/User.js';
 import Product from '../models/Product.js';
-
 
 const orderRouter = express.Router();
 
@@ -141,7 +145,8 @@ orderRouter.put(
       const updatOrder = await order.save();
       await sendMail(
         {
-          email: `${order.user.name} <${order.user.email}`,
+          // email: `${order.user.name} <${order.user.email}`,
+          email: 'godwinnode@gmail.com',
           subject: `New order ${order._id}`,
           html: payOrderEmailTemplate(order),
           // message: `Hello ${order.user.name}, please click on the link to activate your account: ${activationUrl}`,

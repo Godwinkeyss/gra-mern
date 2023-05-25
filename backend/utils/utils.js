@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 export const generateToken = (user) => {
   return jwt.sign(
     {
@@ -40,30 +40,30 @@ export const isAdmin = (req, res, next) => {
 
 export const sendMail = async (options) => {
   const transporter = nodemailer.createTransport({
-      host: process.env.SMPT_HOST,
-      port: process.env.SMPT_PORT,
-      service: process.env.SMPT_SERVICE,
-      auth:{
-          user: process.env.SMPT_MAIL,
-          pass: process.env.SMPT_PASSWORD,
-      },
+    host: process.env.SMPT_HOST,
+    port: process.env.SMPT_PORT,
+    service: process.env.SMPT_SERVICE,
+    auth: {
+      user: process.env.SMPT_MAIL,
+      pass: process.env.SMPT_PASSWORD,
+    },
   });
 
   const mailOptions = {
-      from: process.env.SMPT_MAIL,
-      to: options.email,
-      subject: options.subject,
-      text: options.message,
+    from: process.env.SMPT_MAIL,
+    to: options.email,
+    subject: options.subject,
+    text: options.message,
   };
 
   await transporter.sendMail(mailOptions);
 };
 
-export const payOrderEmailTemplate = (order)=>{
+export const payOrderEmailTemplate = (order) => {
   return `<h1>Thanks for shopping with us</h1>
   <p>${order.user.name}</p>
   <p>We have finished processing your order</p>
-  <h2>[Order ${order._id}] (${order.createdAt.toString().substring(0,10)})</h2>
+  <h2>[Order ${order._id}] (${order.createdAt.toString().substring(0, 10)})</h2>
   <table>
     <thead>
       <tr>
@@ -73,8 +73,10 @@ export const payOrderEmailTemplate = (order)=>{
       </tr>
     </thead>
     <tbody>
-      ${order.orderItems.map((item)=>
-        `
+      ${order.orderItems
+        .map(
+          (item) =>
+            `
         <tr>
          <td>${item.name}</td>
          <td align="right">${item.quantity}</td>
@@ -82,9 +84,7 @@ export const payOrderEmailTemplate = (order)=>{
         </tr>
         `
         )
-        .join('\n')
-     
-      }
+        .join('\n')}
     </tbody>
     <tfoot>
       <tr>
@@ -111,5 +111,5 @@ export const payOrderEmailTemplate = (order)=>{
   </p>
    <hr />
    <p>Thanks for shopping with us.</p>
-  `
-}
+  `;
+};
