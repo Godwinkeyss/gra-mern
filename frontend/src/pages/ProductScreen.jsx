@@ -40,6 +40,7 @@ const reducer = (state, action) => {
 const ProductScreen = () => {
   const [rating,setRating] = useState(0)
   const [comment,setComment] = useState('')
+  const [selectedImage,setSelectedImage] = useState('')
   const reviewsRef = useRef();
   const navigate = useNavigate();
   const params = useParams();
@@ -127,7 +128,7 @@ const ProductScreen = () => {
           <Row>
             <Col md={6}>
               <img
-                src={product.image}
+                src={selectedImage || product.image}
                 alt={product.name}
                 className="img-large"
               />
@@ -149,7 +150,7 @@ const ProductScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>Price : ₦{product.price}</ListGroup.Item>
                 <ListGroup.Item>
-                  {/* <Row xs={1} md={2} className="g-2">
+                  <Row xs={1} md={2} className="g-2">
                 {[product.image, ...product.images].map((x) => (
                   <Col key={x}>
                     <Card>
@@ -164,7 +165,7 @@ const ProductScreen = () => {
                     </Card>
                   </Col>
                 ))}
-              </Row> */}
+              </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Description:
