@@ -11,37 +11,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.site-container{
+.site-container {
   min-height: 100vh;
-  transition: .4s;
+  transition: 0.4s;
   position: relative;
 }
-main{
-  flex:1;
-  
+main {
+  flex: 1;
 }
-a{
-  color:rgb(169, 153, 153) !important;
+a {
+  color: rgb(169, 153, 153) !important;
   text-decoration: none !important;
 }
-a:hover{
+a:hover {
   color: #f0c040 !important;
 }
-.spi{
+.spi {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   height: 100vh !important;
 }
-.top{
-  background:teal;
-  color:white !important;
+.top {
+  background: teal;
+  color: white !important;
 }
-.slide{
+.slide {
   height: 700px;
   width: 100%;
 }
-.slide img{
+.slide img {
   width: 100%;
   filter: grayscale(10%);
   height: 100%;
@@ -49,53 +48,53 @@ a:hover{
   background-position: center;
   background-size: cover;
 }
-.productImg{
-  margin-bottom:40px;
+.productImg {
+  margin-bottom: 40px;
 }
-.btnCart{
-  background:#f0c040 !important;
-  border:none !important;
-  transition:.5s ease-in-out
+.btnCart {
+  background: #f0c040 !important;
+  border: none !important;
+  transition: 0.5s ease-in-out;
 }
-.btnCart:hover{
-  border:1px solid black !important;
+.btnCart:hover {
+  border: 1px solid black !important;
 }
-.productImg img{
+.productImg img {
   /* max-width:320px; */
   width: 100%;
-  height:300px;
-  object-fit:cover;
+  height: 300px;
+  object-fit: cover;
 }
-.products{
+.products {
   display: flex;
   flex-wrap: wrap;
 }
-.product{
+.product {
   margin-left: 30px;
 }
-.img-large{
+.img-large {
   max-width: 100%;
 }
-.rating span{
-  color:#f0c040;
+.rating span {
+  color: #f0c040;
 }
-.img-thumbnail{
+.img-thumbnail {
   height: 80px;
 
   width: 80px;
 }
-.small-container{
+.small-container {
   max-width: 600px !important;
 }
 .checkout-steps > div {
-  border-bottom:0.2rem solid #a0a0a0;
-  color:#a0a0a0
+  border-bottom: 0.2rem solid #a0a0a0;
+  color: #a0a0a0;
 }
-.checkout-steps > div.active{
+.checkout-steps > div.active {
   border-bottom: 0.2rem solid #f08000;
-  color:#f08000;
+  color: #f08000;
 }
-.payment-img{
+.payment-img {
   width: 100%;
   height: 100px;
   object-fit: cover;
@@ -126,7 +125,7 @@ a:hover{
 .active-nav {
   left: 0;
 }
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
